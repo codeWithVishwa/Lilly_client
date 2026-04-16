@@ -1,121 +1,121 @@
-import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { Calendar, User, ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, User } from 'lucide-react';
 import { posts } from '../data';
 
 export default function Blog() {
-  const headerRef = useRef<HTMLDivElement>(null);
+  const featuredPost = posts[0];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.header-anim', {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out'
-      });
-
-      gsap.from('.blog-card', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-        delay: 0.3
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  if (!featuredPost) {
+    return (
+      <div className="bg-background min-h-screen pt-32 pb-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="glass-panel border border-border rounded-2xl p-10">
+            <p className="text-[11px] uppercase tracking-[2px] text-brand-accent mb-4">No Articles Yet</p>
+            <h1 className="text-4xl font-serif font-normal mb-4">Sample blog content is coming soon</h1>
+            <p className="text-foreground/80 leading-relaxed">
+              Add blog posts to the shared data file and they will appear here automatically.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background min-h-screen pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Header */}
-        <div ref={headerRef} className="max-w-3xl mb-16 text-center mx-auto">
-          <h1 className="text-5xl md:text-6xl font-serif font-normal mb-6 header-anim">
-            Latest <span className="text-brand-accent italic">News & Insights</span>
+        <section className="max-w-4xl mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-accent/10 text-brand-accent text-[11px] uppercase tracking-[2px] font-bold mb-6">
+            {posts.length} sample articles live
+          </div>
+          <h1 className="text-5xl md:text-6xl font-serif font-normal mb-6 text-foreground">
+            News & <span className="text-brand-accent italic">Insights</span>
           </h1>
-          <p className="text-muted text-lg leading-relaxed header-anim">
-            Stay updated with the latest industry news, career advice, and training guides from the experts at Lilly Angel Institute.
+          <p className="text-foreground/80 text-lg leading-relaxed">
+            Every card below is rendered directly from the shared blog data. The layout is intentionally
+            static, so your sample posts stay visible even if GSAP or delayed transitions fail.
           </p>
-        </div>
+        </section>
 
-        {/* Featured Post */}
-        <div className="mb-16 blog-card">
-          <div className="glass-panel rounded-xl overflow-hidden border border-border-subtle group cursor-pointer flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2 aspect-video md:aspect-auto relative overflow-hidden">
-              <img 
-                src={posts[0].image} 
-                alt={posts[0].title} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-              />
-              <div className="absolute top-6 left-6 glass-panel px-4 py-1.5 rounded-sm text-[10px] font-medium tracking-[1px] uppercase text-foreground backdrop-blur-md border border-border">
-                {posts[0].category}
+        <section className="bg-surface rounded-2xl overflow-hidden border border-border shadow-[0_24px_70px_rgba(15,23,42,0.08)] mb-12">
+          <div className="grid md:grid-cols-2">
+            <div className="relative min-h-[320px]">
+              <img src={featuredPost.image} alt={featuredPost.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+              <div className="absolute top-6 left-6 px-3 py-1 rounded-full bg-white/90 text-black text-[10px] font-bold uppercase tracking-[1px]">
+                Featured
               </div>
             </div>
-            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-              <div className="flex items-center gap-6 text-sm text-muted mb-6">
-                <span className="flex items-center gap-2"><Calendar size={16} className="text-brand-accent" /> {posts[0].date}</span>
-                <span className="flex items-center gap-2"><User size={16} className="text-brand-accent" /> {posts[0].author}</span>
+
+            <div className="p-8 md:p-10 flex flex-col justify-center">
+              <div className="flex flex-wrap items-center gap-5 text-sm text-foreground/70 mb-5">
+                <span className="flex items-center gap-2">
+                  <Calendar size={16} className="text-brand-accent" />
+                  {featuredPost.date}
+                </span>
+                <span className="flex items-center gap-2">
+                  <User size={16} className="text-brand-accent" />
+                  {featuredPost.author}
+                </span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-serif font-normal text-foreground mb-6 group-hover:text-brand-accent transition-colors">
-                {posts[0].title}
-              </h2>
-              <p className="text-muted text-lg mb-8 leading-relaxed">
-                {posts[0].excerpt}
+              <p className="text-[11px] uppercase tracking-[2px] text-brand-accent mb-3">
+                {featuredPost.category}
               </p>
-              <Link to={`/blog/${posts[0].id}`} className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-brand-accent hover:text-brand-accent-hover transition-colors w-fit">
+              <h2 className="text-3xl md:text-4xl font-serif font-normal text-foreground mb-4">
+                {featuredPost.title}
+              </h2>
+              <p className="text-foreground/75 text-base leading-relaxed mb-8">{featuredPost.excerpt}</p>
+              <Link
+                to={`/blog/${featuredPost.id}`}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-brand-accent text-primary-foreground text-[11px] uppercase tracking-[2px] font-bold hover:bg-brand-accent-hover transition-colors w-fit"
+              >
                 Read Full Article <ArrowRight size={16} />
               </Link>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Grid Posts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {posts.slice(1).map((post) => (
-            <div key={post.id} className="blog-card group flex flex-col glass-panel rounded-xl overflow-hidden border border-border-subtle hover:border-brand-accent/30 transition-all">
+            <article
+              key={post.id}
+              className="bg-surface rounded-2xl overflow-hidden border border-border shadow-[0_20px_60px_rgba(15,23,42,0.08)] hover:-translate-y-1 transition-transform"
+            >
               <div className="relative aspect-[16/10] overflow-hidden">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                />
-                <div className="absolute top-4 left-4 glass-panel px-3 py-1 rounded-sm text-[10px] font-medium tracking-[1px] uppercase text-foreground backdrop-blur-md border border-border">
+                <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 text-black text-[10px] font-bold uppercase tracking-[1px]">
                   {post.category}
                 </div>
               </div>
-              
-              <div className="p-8 flex flex-col flex-grow">
-                <div className="flex items-center gap-4 text-xs text-muted mb-4">
-                  <span className="flex items-center gap-1"><Calendar size={14} className="text-brand-accent" /> {post.date}</span>
+
+              <div className="p-7 flex flex-col h-[calc(100%-12rem)]">
+                <div className="flex items-center gap-4 text-sm text-foreground/65 mb-4">
+                  <span className="flex items-center gap-2">
+                    <Calendar size={14} className="text-brand-accent" />
+                    {post.date}
+                  </span>
                 </div>
-                
-                <h3 className="text-xl font-serif font-normal mb-4 group-hover:text-brand-accent transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-                
-                <p className="text-muted mb-8 flex-grow line-clamp-3 text-sm">
-                  {post.excerpt}
-                </p>
-                
-                <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-brand-accent hover:text-brand-accent-hover transition-colors mt-auto">
-                  Read More <ArrowRight size={16} />
+
+                <h3 className="text-2xl font-serif font-normal text-foreground mb-3">{post.title}</h3>
+                <p className="text-foreground/75 text-sm leading-relaxed mb-6 flex-grow">{post.excerpt}</p>
+
+                <Link
+                  to={`/blog/${post.id}`}
+                  className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-brand-accent hover:text-brand-accent-hover transition-colors"
+                >
+                  Read Article <ArrowRight size={16} />
                 </Link>
               </div>
-            </div>
+            </article>
           ))}
-        </div>
-        
-        <div className="text-center mt-16 blog-card">
-           <button className="px-9 py-[18px] rounded-sm border border-border-strong text-foreground font-bold uppercase tracking-[1px] hover:bg-surface-hover transition-all">
-              Load More Articles
-           </button>
-        </div>
+        </section>
+
+        <section className="mt-12 text-center">
+          <p className="text-foreground/65 text-sm">
+            Showing all {posts.length} sample blog articles.
+          </p>
+        </section>
       </div>
     </div>
   );

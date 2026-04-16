@@ -1,4 +1,28 @@
-export const courses = [
+export type Course = {
+  id: number;
+  title: string;
+  category: string;
+  duration: string;
+  price: string;
+  image: string;
+  description: string;
+  modules: string[];
+  career: string;
+  dates: string[];
+};
+
+export type Post = {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  date: string;
+  author: string;
+  image: string;
+};
+
+export const courses: Course[] = [
   {
     id: 1,
     title: 'SIA Door Supervisor',
@@ -163,7 +187,7 @@ export const courses = [
   }
 ];
 
-export const posts = [
+export const posts: Post[] = [
   {
     id: 1,
     title: 'How to get an SIA licence in the UK',
@@ -265,3 +289,11 @@ export const posts = [
     image: 'https://images.unsplash.com/photo-1541888062836-819777263595?q=80&w=2070&auto=format&fit=crop'
   }
 ];
+
+export function getCourseById(id: number) {
+  return courses.find((course) => course.id === id);
+}
+
+export function getPostById(id: number) {
+  return posts.find((post) => post.id === id);
+}

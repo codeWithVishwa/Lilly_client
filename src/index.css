@@ -105,9 +105,14 @@ body {
 .glass-panel {
   background: var(--bg-secondary);
   border: 1px solid var(--border-base);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(10px);
 }
 .glass-panel-light {
   background: var(--bg-surface-hover);
   border: 1px solid var(--border-base);
 }
 
+.dark .glass-panel {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}

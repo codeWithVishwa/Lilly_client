@@ -58,18 +58,6 @@ export default function Home() {
         ease: 'power3.out'
       });
 
-      gsap.from('.course-card', {
-        scrollTrigger: {
-          trigger: coursesRef.current,
-          start: 'top 75%',
-        },
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power3.out'
-      });
-
       gsap.from('.feature-item', {
         scrollTrigger: {
           trigger: whyUsRef.current,
@@ -205,15 +193,18 @@ export default function Home() {
             <div>
               <h2 className="text-[11px] font-medium tracking-[2px] uppercase text-brand-accent mb-4">Our Programs</h2>
               <h3 className="text-4xl md:text-5xl font-serif font-normal">Featured Courses</h3>
+              <p className="text-muted mt-4 max-w-2xl">
+                Explore sample courses from our full catalogue of {courses.length} training programs.
+              </p>
             </div>
             <Link to="/courses" className="px-6 py-3 rounded-sm border border-border-strong text-foreground text-[11px] uppercase tracking-[2px] hover:bg-surface-hover transition-all flex items-center gap-2">
-              View All Courses <ArrowRight size={16} />
+              View All {courses.length} <ArrowRight size={16} />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {courses.slice(0, 3).map((course) => (
-              <div key={course.id} className="course-card group cursor-pointer glass-panel p-4 rounded-xl">
+              <div key={course.id} className="course-card group cursor-pointer bg-surface border border-border shadow-[0_20px_60px_rgba(15,23,42,0.08)] p-4 rounded-xl">
                 <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-6">
                   <img src={course.image} alt={course.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80"></div>
@@ -300,15 +291,18 @@ export default function Home() {
             <div>
               <h2 className="text-[11px] font-medium tracking-[2px] uppercase text-brand-accent mb-4">Latest Insights</h2>
               <h3 className="text-4xl md:text-5xl font-serif font-normal">News & Articles</h3>
+              <p className="text-muted mt-4 max-w-2xl">
+                Read sample blog content from our library of {posts.length} training articles and guides.
+              </p>
             </div>
             <Link to="/blog" className="px-6 py-3 rounded-sm border border-border-strong text-foreground text-[11px] uppercase tracking-[2px] hover:bg-surface-hover transition-all flex items-center gap-2">
-              Read All News <ArrowRight size={16} />
+              Read All {posts.length} <ArrowRight size={16} />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {posts.slice(0, 3).map((post, idx) => (
-              <div key={idx} className="glass-panel rounded-xl overflow-hidden group border border-border-subtle hover:border-brand-accent/30 transition-all cursor-pointer">
+              <div key={idx} className="bg-surface rounded-xl overflow-hidden group border border-border shadow-[0_20px_60px_rgba(15,23,42,0.08)] hover:border-brand-accent/30 transition-all cursor-pointer">
                 <div className="aspect-[16/10] overflow-hidden relative">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute top-4 left-4 glass-panel px-3 py-1 rounded-sm text-[10px] font-medium tracking-[1px] uppercase text-foreground backdrop-blur-md">
@@ -318,7 +312,8 @@ export default function Home() {
                 <div className="p-6">
                   <div className="text-[11px] text-muted-foreground uppercase tracking-[1px] mb-3">{post.date}</div>
                   <h4 className="text-xl font-serif font-normal text-foreground group-hover:text-brand-accent transition-colors mb-4 line-clamp-2">{post.title}</h4>
-                  <Link to="/blog" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-brand-accent hover:text-brand-accent-hover transition-colors">
+                  <p className="text-sm text-muted mb-4 line-clamp-3">{post.excerpt}</p>
+                  <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-brand-accent hover:text-brand-accent-hover transition-colors">
                     Read Article <ArrowRight size={16} />
                   </Link>
                 </div>

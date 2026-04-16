@@ -40,9 +40,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2 group">
           <img 
-            src="/LillyLogo.png" 
+            src="/logo.png" 
             alt="Lilly Angel Logo" 
-            className="h-12 md:h-10 w-auto object-contain"
+            className="h-12 md:h-12 w-auto object-contain"
           />
         </Link>
 
